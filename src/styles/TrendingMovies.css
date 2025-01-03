@@ -1,0 +1,60 @@
+.trending-movies {
+    background-color: #1c1c1c; /* Dark background */
+    padding: 0px 20px 20px 20px;
+    border-radius: 10px;
+    color: white;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px; /* Spacing between movie cards */
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #888 transparent; /* Custom scrollbar color */
+  }
+  
+  .scroll-container::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .scroll-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+  
+  .scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .movie-card {
+    flex: 0 0 auto; /* Prevent shrinking */
+    background-color: #2c2c2c; /* Slightly lighter than background */
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    width: 150px; /* Width of each movie card */
+  }
+  
+  .movie-image-placeholder {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #444;
+    color: #ccc;
+    font-size: 1rem;
+    border-bottom: 2px solid #555;
+  }
+  
+  .movie-title {
+    font-size: 0.9rem;
+    padding: 10px;
+    color: #ccc;
+  }
+  
