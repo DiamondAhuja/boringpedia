@@ -1,7 +1,7 @@
-import React from 'react';
 import Navbar from './components/Navbar';
 import TrendingMovies from './components/TrendingMovies';
 import TestFirebase from './components/TestFirebase';
+import AddMovies from './components/AddMovies';
 import './styles/App.css'; 
 
 function App() {
@@ -10,6 +10,7 @@ function App() {
       <Navbar />
       <TrendingMovies />
       <TestFirebase />
+      <AddMovies />
     </div>
   );
 }
