@@ -4,7 +4,7 @@ import { db } from "./firebaseConfig.ts"; // Adjust path if needed
 
 // Function to fetch movie data from OMDb API
 const getMovieData = async (movieTitle: string) => {
-  const apiKey = '9e3e6e07'; // Your OMDb API key
+  const apiKey = import.meta.env.VITE_OMDB_API_KEY;
   const baseUrl = "http://www.omdbapi.com/";
 
   try {
