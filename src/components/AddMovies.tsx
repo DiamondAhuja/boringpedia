@@ -2,33 +2,43 @@ import { useState } from 'react';
 import { storeMovie } from '../services/addMovies'; // Adjust path as needed
 
 const AddMovies = () => {
-  const [movieTitle, setMovieTitle] = useState('');
+  const [movieTitles, setMovieTitles] = useState('');
 
-  const handleAddMovie = async () => {
-    if (!movieTitle) {
-      alert('Please enter a movie title');
+  const handleAddMovies = async () => {
+    if (!movieTitles) {
+      alert('Please enter at least one movie title');
+      return;
+    }
+
+    const titlesArray = movieTitles.split(',').map((title) => title.trim());
+    if (titlesArray.length === 0) {
+      alert('Invalid input. Please provide valid movie titles.');
       return;
     }
 
     try {
-      await storeMovie(movieTitle);
-      alert(`Movie "${movieTitle}" has been added.`);
-      setMovieTitle('');
+      for (const title of titlesArray) {
+        await storeMovie(title);
+        console.log(`Movie "${title}" has been processed.`);
+      }
+      alert('Movies have been added successfully.');
+      setMovieTitles('');
     } catch (error) {
-      console.error('Error adding movie:', error);
-      alert('Failed to add movie.');
+      console.error('Error adding movies:', error);
+      alert('Failed to add one or more movies.');
     }
   };
 
   return (
     <div>
-      <input
-        type="text"
-        value={movieTitle}
-        onChange={(e) => setMovieTitle(e.target.value)}
-        placeholder="Enter movie title"
+      <textarea
+        value={movieTitles}
+        onChange={(e) => setMovieTitles(e.target.value)}
+        placeholder="Enter movie titles separated by commas (e.g., The Avengers, Iron Man, Thor)"
+        rows={5}
+        cols={50}
       />
-      <button onClick={handleAddMovie}>Add Movie</button>
+      <button onClick={handleAddMovies}>Add Movies</button>
     </div>
   );
 };
