@@ -2,6 +2,49 @@ import axios from "axios";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { db } from "./firebaseConfig.ts"; // Adjust path if needed
 
+const getTMDbTrailer = async (movieTitle: string): Promise<string | null> => {
+  const apiKey = import.meta.env.VITE_TMDB_API_KEY; // Add TMDb API key in your .env file
+  const searchUrl = "https://api.themoviedb.org/3/search/movie";
+  const movieDetailsUrl = "https://api.themoviedb.org/3/movie";
+
+  try {
+    // Search for the movie
+    const searchResponse = await axios.get(searchUrl, {
+      params: {
+        api_key: apiKey,
+        query: movieTitle,
+      },
+    });
+
+    const searchResults = searchResponse.data as { results: any[] };
+    if (searchResults.results.length === 0) {
+      console.error("Movie not found on TMDb:", movieTitle);
+      return null;
+    }
+
+    // Get the first movie result
+    const movie = (searchResponse.data as { results: any[] }).results[0];
+
+    // Fetch the movie's videos (trailers)
+    const detailsResponse = await axios.get(`${movieDetailsUrl}/${movie.id}`, {
+      params: {
+        api_key: apiKey,
+        append_to_response: "videos",
+      },
+    });
+
+    // Find the trailer in the videos
+    const trailer = (detailsResponse.data as { videos: { results: any[] } }).videos.results.find(
+      (video: any) => video.type === "Trailer" && video.site === "YouTube"
+    );
+
+    return trailer ? `https://www.youtube.com/watch?v=${trailer.key}` : null;
+  } catch (error) {
+    console.error("Error fetching trailer from TMDb:", error);
+    return null;
+  }
+};
+
 // Function to fetch movie data from OMDb API
 const getMovieData = async (movieTitle: string) => {
   const apiKey = import.meta.env.VITE_OMDB_API_KEY;
@@ -14,6 +57,8 @@ const getMovieData = async (movieTitle: string) => {
         apikey: apiKey,
       },
     });
+    const trailer = await getTMDbTrailer(movieTitle);
+    (response.data as any).Trailer = trailer || null;
     return response.data;
   } catch (error) {
     console.error("Error fetching movie data:", error);
@@ -42,7 +87,7 @@ const formatMovieData = (movieData: any) => {
         )?.Value?.replace("%", "") || null,
     },
     summary: movieData.Plot,
-    trailer: "https://youtube.com/trailer", // Placeholder for trailer URL
+    trailer: movieData.Trailer, // Placeholder for trailer URL
     usersRated: {
       UID: 0, // Placeholder for user rating
     },
