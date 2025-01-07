@@ -48,7 +48,7 @@ const getTMDbTrailer = async (movieTitle: string): Promise<string | null> => {
 // Function to fetch movie data from OMDb API
 const getMovieData = async (movieTitle: string) => {
   const apiKey = import.meta.env.VITE_OMDB_API_KEY;
-  const baseUrl = "http://www.omdbapi.com/";
+  const baseUrl = "https://www.omdbapi.com/";
 
   try {
     const response = await axios.get(baseUrl, {
