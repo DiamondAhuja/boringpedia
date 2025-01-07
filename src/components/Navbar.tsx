@@ -1,12 +1,17 @@
-import React from 'react';
-import '../styles/Navbar.css';
+import React from "react";
+import "../styles/Navbar.css";
+import logo from '../assets/boringpedia-logo.jpg';
 
 const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
         <a href="/" className="logo">
-          <span>B</span>
+          <img
+            src={logo}
+            alt="Boringpedia"
+            className="logo-img"
+          />
         </a>
         <ul className="nav-links">
           <li>Home</li>
